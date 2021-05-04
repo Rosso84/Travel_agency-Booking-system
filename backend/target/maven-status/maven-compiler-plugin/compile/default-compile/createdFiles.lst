@@ -1,0 +1,6 @@
+org/studentnr/backend/entities/Trip.class
+org/studentnr/backend/entities/Purchases.class
+org/studentnr/backend/entities/TripReservation.class
+org/studentnr/backend/entities/User.class
+org/studentnr/backend/PasswordConfig.class
+org/studentnr/backend/service/UserService.class
