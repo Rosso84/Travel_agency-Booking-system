@@ -3,6 +3,8 @@ package org.studentnr.backend.service;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.studentnr.backend.entities.Purchase;
+import org.studentnr.backend.entities.Trip;
 import org.studentnr.backend.entities.User;
 
 import javax.persistence.Entity;
@@ -25,10 +27,9 @@ public class ResetService {
         Query query = em.createNativeQuery("delete from user_roles");
         query.executeUpdate();
 
-        //deleteEntities(Trip.class);
         deleteEntities(User.class);
-       // deleteEntities(TripReservation.class);
-        //deleteEntities(Book.class);
+        deleteEntities(Purchase.class);
+       // deleteEntities(Trip.class);
     }
 
     private void deleteEntities(Class<?> entity){

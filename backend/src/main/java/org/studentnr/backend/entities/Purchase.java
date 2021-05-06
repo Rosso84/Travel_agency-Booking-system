@@ -4,9 +4,6 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
-
 
 
 @Entity
@@ -19,6 +16,9 @@ public class Purchase {
     @ManyToOne
     private User user;
 
+  /*  @NotNull
+    private Long tripId;
+*/
 
     /*
     When you want to represent a date in Java, use classes from java.time.* package,
@@ -42,22 +42,18 @@ public class Purchase {
     @Past
     private LocalDate bookedDate;
 
-    /*
-     From the JPA 2.0 spec, the defaults are like so:
-     OneToMany: LAZY
-     ManyToOne: EAGER
-     ManyToMany: LAZY
-     OneToOne: EAGER
-    */
-
-    @NotNull
-    @OneToOne //TODO: fetchType LAZY needed?
-    private Trip trip;
-
 
     public Purchase(){
 
     }
+
+    /*public Long getTripId() {
+        return tripId;
+    }
+
+    public void setTripId(Long tripId) {
+        this.tripId = tripId;
+    }*/
 
     public void setUser(User user) {
         this.user = user;
@@ -67,14 +63,6 @@ public class Purchase {
         this.bookedDate = bookedDate;
     }
 
-    public Trip getTrip() {
-        return trip;
-    }
-
-    public void setTrip(Trip trip) {
-        this.trip = trip;
-    }
-
     public Long getId() {
         return id;
     }
@@ -82,7 +70,6 @@ public class Purchase {
     public void setId(Long id) {
         this.id = id;
     }
-
 
     public User getUser() {
         return user;

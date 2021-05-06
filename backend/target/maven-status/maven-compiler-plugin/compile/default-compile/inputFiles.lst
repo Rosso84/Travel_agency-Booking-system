@@ -1,6 +1,7 @@
 /Users/roozbehmoradi/Desktop/Enterprise/travel_agency/backend/src/main/java/org/studentnr/backend/entities/Trip.java
-/Users/roozbehmoradi/Desktop/Enterprise/travel_agency/backend/src/main/java/org/studentnr/backend/entities/TripReservation.java
+/Users/roozbehmoradi/Desktop/Enterprise/travel_agency/backend/src/main/java/org/studentnr/backend/service/TripService.java
 /Users/roozbehmoradi/Desktop/Enterprise/travel_agency/backend/src/main/java/org/studentnr/backend/entities/User.java
-/Users/roozbehmoradi/Desktop/Enterprise/travel_agency/backend/src/main/java/org/studentnr/backend/entities/Purchases.java
+/Users/roozbehmoradi/Desktop/Enterprise/travel_agency/backend/src/main/java/org/studentnr/backend/service/PurchaseService.java
 /Users/roozbehmoradi/Desktop/Enterprise/travel_agency/backend/src/main/java/org/studentnr/backend/PasswordConfig.java
 /Users/roozbehmoradi/Desktop/Enterprise/travel_agency/backend/src/main/java/org/studentnr/backend/service/UserService.java
+/Users/roozbehmoradi/Desktop/Enterprise/travel_agency/backend/src/main/java/org/studentnr/backend/entities/Purchase.java

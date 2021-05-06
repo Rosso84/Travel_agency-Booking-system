@@ -47,7 +47,14 @@ public class UserService {
         return true;
     }
 
-    public User getUser(long id){
+    public User getUser(String id){
         return em.find(User.class, id);
     }
+
+    public boolean bookTrip(User user, String date){
+
+
+        return true;
+    }
+
 }

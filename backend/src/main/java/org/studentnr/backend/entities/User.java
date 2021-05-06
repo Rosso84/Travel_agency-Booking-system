@@ -2,6 +2,7 @@ package org.studentnr.backend.entities;
 
 import javax.persistence.*;
 import javax.validation.constraints.*;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -12,9 +13,9 @@ import java.util.Set;
 public class User {
 
     @Id
-    @NotBlank @Size(min=10, max=128)
-    //@Email //TODO:Try email validation (Size needed?)
-    //@Column(unique = true) Do we need unique here or does the email validation add the unique?
+    @NotBlank
+    @Size(min=5, max=128)
+    @Email
     private String email;
 
     @NotBlank
@@ -27,7 +28,7 @@ public class User {
 
     @NotBlank
     @Size(max = 124)
-    private String surname;
+    private String surename;
 
     @NotBlank
     @Size(max = 255)
@@ -41,7 +42,7 @@ public class User {
     @Size(min = 8, max = 255)
     private String password;
 
-    @OneToMany(mappedBy = "parent", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Purchase> purchases;
 
     @NotNull
@@ -53,6 +54,9 @@ public class User {
 
 
     public User() {
+        if (purchases == null){
+            purchases = new ArrayList<>();
+        }
     }
 
     public String getFirstname() {
@@ -108,11 +112,11 @@ public class User {
     }
 
     public String getSurname() {
-        return surname;
+        return surename;
     }
 
     public void setSurname(String surname) {
-        this.surname = surname;
+        this.surename = surname;
     }
 
     public String getAddress() {

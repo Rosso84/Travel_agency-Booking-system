@@ -1,9 +1,4 @@
 -------------------------------------------------------------------------------
 Test set: org.studentnr.backend.service.UserServiceTest
 -------------------------------------------------------------------------------
-Tests run: 1, Failures: 0, Errors: 1, Skipped: 0, Time elapsed: 0.011 s <<< FAILURE! - in org.studentnr.backend.service.UserServiceTest
-org.studentnr.backend.service.UserServiceTest.testCreateUser  Time elapsed: 0.003 s  <<< ERROR!
-org.springframework.transaction.CannotCreateTransactionException: Could not open JPA EntityManager for transaction; nested exception is javax.persistence.PersistenceException: [PersistenceUnit: default] Unable to build Hibernate SessionFactory; nested exception is org.hibernate.tool.schema.spi.SchemaManagementException: Schema-validation: missing table [trip]
-Caused by: javax.persistence.PersistenceException: [PersistenceUnit: default] Unable to build Hibernate SessionFactory; nested exception is org.hibernate.tool.schema.spi.SchemaManagementException: Schema-validation: missing table [trip]
-Caused by: org.hibernate.tool.schema.spi.SchemaManagementException: Schema-validation: missing table [trip]
-
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 4.524 s - in org.studentnr.backend.service.UserServiceTest
