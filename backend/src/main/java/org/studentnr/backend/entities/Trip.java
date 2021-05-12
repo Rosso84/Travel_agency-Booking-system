@@ -4,34 +4,36 @@ import javax.persistence.*;
 import javax.validation.constraints.*;
 import java.time.LocalDate;
 
-//@Entity
+@Entity
 public class Trip {
 
     @Id @GeneratedValue
     private Long id;
 
     @NotBlank
-    @Size(max=255)
+    @Size(max=250)
     private String title;
 
-    //@NotBlank //TODO: Can be blank???
+    @Size(max=500)
+    @NotNull
     private String description;
 
     //@Min(0) TODO: remember to add 'check (cost>0)' to flyway to avoid using negative values
     @NotNull
-    private int cost;
+    private Integer cost;
 
     @NotBlank
-    @Size(max = 128)
-    private String location;
+    @Size(max = 150)
+    private String location;  //TODO: might need an ENUM for places
 
-    //@Future  // Cannot be in past..there is a @Past constraint as well (Can be used for registerDate.)
     @NotNull
-    private String departureDate;
+    @Future
+    private LocalDate departureDate;
 
-    //@Future  //TODO: remember to check if provided returnDate is before departure and test if past fails..
     @NotNull
-    private String returnDate;
+    @Future  //TODO: remember to check if provided returnDate is before departure and test if past fails..
+    private LocalDate returnDate;
+
 
     /* Need also flightEntity, seatEntity, TripDetailsEnt etc, but not for now.. */
     //@NotNull
@@ -42,6 +44,7 @@ public class Trip {
     //Need an empty constructor
     public Trip(){
     }
+
 
     public Long getId() {
         return id;
@@ -59,11 +62,12 @@ public class Trip {
         this.title = title;
     }
 
+
     public String getDescription() {
         return description;
     }
 
-    public void setDescription(String description) {
+    public void setDiscription(String description) {
         this.description = description;
     }
 
@@ -83,19 +87,19 @@ public class Trip {
         this.location = location;
     }
 
-    public String getDepartureDate() {
+    public LocalDate getDepartureDate() {
         return departureDate;
     }
 
-    public void setDepartureDate(String departureDate) {
+    public void setDepartureDate(LocalDate departureDate) {
         this.departureDate = departureDate;
     }
 
-    public String getReturnDate() {
+    public LocalDate getReturnDate() {
         return returnDate;
     }
 
-    public void setReturnDate(String returnDate) {
+    public void setReturnDate(LocalDate returnDate) {
         this.returnDate = returnDate;
     }
 

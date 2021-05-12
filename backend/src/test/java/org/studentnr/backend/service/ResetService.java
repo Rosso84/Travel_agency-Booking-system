@@ -12,6 +12,8 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
+
+
 /**
  * Created by arcuri82 on 14-Dec-17.
  */
@@ -27,9 +29,9 @@ public class ResetService {
         Query query = em.createNativeQuery("delete from user_roles");
         query.executeUpdate();
 
-        deleteEntities(User.class);
         deleteEntities(Purchase.class);
-       // deleteEntities(Trip.class);
+        deleteEntities(User.class);
+        deleteEntities(Trip.class);
     }
 
     private void deleteEntities(Class<?> entity){

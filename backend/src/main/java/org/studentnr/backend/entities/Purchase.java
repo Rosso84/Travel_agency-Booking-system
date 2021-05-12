@@ -1,6 +1,9 @@
 package org.studentnr.backend.entities;
 
+import org.hibernate.engine.internal.Cascade;
+
 import javax.persistence.*;
+import javax.validation.constraints.Future;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
 import java.time.LocalDate;
@@ -16,9 +19,10 @@ public class Purchase {
     @ManyToOne
     private User user;
 
-  /*  @NotNull
-    private Long tripId;
-*/
+    @NotNull
+    @OneToOne(cascade = CascadeType.ALL)
+    private Trip trip;
+
 
     /*
     When you want to represent a date in Java, use classes from java.time.* package,
@@ -39,7 +43,6 @@ public class Purchase {
     JPA 2.2 (in JEE 8) does support directly them.
     */
     @NotNull
-    @Past
     private LocalDate bookedDate;
 
 
@@ -47,13 +50,13 @@ public class Purchase {
 
     }
 
-    /*public Long getTripId() {
-        return tripId;
+    public Trip getTrip() {
+        return trip;
     }
 
-    public void setTripId(Long tripId) {
-        this.tripId = tripId;
-    }*/
+    public void setTrip(Trip trip) {
+        this.trip = trip;
+    }
 
     public void setUser(User user) {
         this.user = user;

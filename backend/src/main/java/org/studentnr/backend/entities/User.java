@@ -14,35 +14,52 @@ public class User {
 
     @Id
     @NotBlank
-    @Size(min=5, max=128)
+    @Size(min=6, max=250)
+    @Column(unique = true)
     @Email
     private String email;
 
     @NotBlank
-    @Size(max = 124)
+    @Size(max = 125)
     private String firstname;
 
     //the middle name might be missing, but, if there is one, can't be too long
-    @Size(max = 124)
+    @Size(max = 50)
     private String middleName;
 
     @NotBlank
-    @Size(max = 124)
+    @Size(max = 125)
     private String surename;
 
     @NotBlank
-    @Size(max = 255)
+    @Size(max = 250)
     private String address;
 
     @NotBlank
-    @Size(max = 255)
+    @Size(max = 250)
     private String postalCode;
 
     @NotBlank
-    @Size(min = 8, max = 255)
+    @Size(min = 8, max = 250)
     private String password;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+
+    /* Cascade types:
+              ALL
+              PERSIST
+              MERGE
+              REMOVE
+              REFRESH
+              DETACH
+      */
+    /*
+    From the JPA 2.0 spec, the defaults are like so:
+     OneToMany: LAZY
+     ManyToOne: EAGER
+     ManyToMany: LAZY
+     OneToOne: EAGER
+     */
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)  //TODO: what cascadetype should user be allowed to? Persist only?
     private List<Purchase> purchases;
 
     @NotNull
@@ -57,6 +74,14 @@ public class User {
         if (purchases == null){
             purchases = new ArrayList<>();
         }
+    }
+
+    public String getSurename() {
+        return surename;
+    }
+
+    public void setSurename(String surename) {
+        this.surename = surename;
     }
 
     public String getFirstname() {
