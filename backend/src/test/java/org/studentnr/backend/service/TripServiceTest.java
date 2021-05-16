@@ -1,6 +1,6 @@
 package org.studentnr.backend.service;
 
-import net.bytebuddy.asm.Advice;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,8 +9,13 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.studentnr.backend.StubApplication;
 import org.studentnr.backend.entities.Trip;
 
+import javax.validation.ConstraintViolation;
+import javax.validation.Validation;
+import javax.validation.Validator;
+import javax.validation.ValidatorFactory;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -19,12 +24,33 @@ import static org.junit.jupiter.api.Assertions.*;
         webEnvironment = SpringBootTest.WebEnvironment.NONE)
 public class TripServiceTest extends ServiceTestBase{
 
+
+
     @Autowired
     private TripService tripService;
+
+    private ValidatorFactory valFactory;
+    private Validator validator;
 
     LocalDate dateOfToday = LocalDate.now();
     LocalDate departureDate= dateOfToday.plusYears(1).plusMonths(1);
     LocalDate returnDate= departureDate.plusWeeks(3);
+
+    @BeforeEach
+    public void init() {
+        valFactory = Validation.buildDefaultValidatorFactory();
+        validator = valFactory.getValidator();
+    }
+
+    private <T> boolean hasViolations(T obj){
+        Set<ConstraintViolation<T>> violations = validator.validate(obj);
+
+        for(ConstraintViolation<T> cv : violations){
+            System.out.println("VIOLATION: "+cv.toString());
+        }
+
+        return violations.size() > 0;
+    }
 
     private Long createValidTrip(String location, Integer cost){
         String title = "Some title";
@@ -150,5 +176,23 @@ public class TripServiceTest extends ServiceTestBase{
          assertTrue( trips.get( 2 ).getCost() == 1500 ); //Pakistan
          assertTrue( trips.get( 3 ).getCost() == 1500 ); //Pakistan
          assertTrue( trips.get( 4 ).getCost() == 30000 ); //Thailand
+    }
+
+    @Test
+    public void testSetWrongFutureDepartureDateFails(){
+        String title = "Some title";
+        String discription = "Discription about the trip. It is a nice trip. All included";
+
+        Trip trip = new Trip();
+        trip.setTitle( title );
+        trip.setDiscription( discription );
+        trip.setCost(10000);
+        trip.setDepartureDate( dateOfToday ); //Should not work as its set to @Future. date must be after today
+        trip.setReturnDate( returnDate );
+
+        assertTrue( hasViolations( trip ) );
+
+        trip.setDepartureDate( departureDate );
+
     }
 }
