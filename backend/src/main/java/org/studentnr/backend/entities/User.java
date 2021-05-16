@@ -23,7 +23,6 @@ public class User {
     @Size(max = 125)
     private String firstname;
 
-    //the middle name might be missing, but, if there is one, can't be too long
     @Size(max = 50)
     private String middleName;
 

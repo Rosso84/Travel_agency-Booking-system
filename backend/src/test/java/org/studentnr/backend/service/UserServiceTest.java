@@ -15,6 +15,7 @@ import javax.persistence.Persistence;
 import javax.validation.*;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -31,16 +32,19 @@ public class UserServiceTest extends ServiceTestBase{
     @Autowired
     private TripService tripService;
 
+    @Autowired
+    private PurchaseService purchaseService;
+
     private ValidatorFactory valFactory;
     private Validator validator;
 
-    String email = "Rosso@Hotmail.com";
-    String name = "Rosso";
-    String midleName = "Melodi";
-    String surename = "Merandi";
-    String address = "someAdress 99";
-    String postalCode = "33rd street";
-    String password = "MyPassword";
+    private String email = "Rosso@Hotmail.com";
+    private String name = "Rosso";
+    private String midleName = "Melodi";
+    private String surename = "Merandi";
+    private String address = "someAdress 99";
+    private String postalCode = "33rd street";
+    private String password = "MyPassword123";
 
     @BeforeEach
     public void init() {
@@ -58,6 +62,7 @@ public class UserServiceTest extends ServiceTestBase{
         return violations.size() > 0;
     }
 
+
     public User createValidUser(String email){
         User user = new User();
         user.setEmail(email);
@@ -72,15 +77,12 @@ public class UserServiceTest extends ServiceTestBase{
         return user;
     }
 
-    private Long createValidTrip(String location){
-        String title = "Family trip";
-        String discription = "Discription about the trip. It is a nice trip. All included";
-        Integer cost = 12000;
-        LocalDate depDate = LocalDate.of(2021, 8, 15);
-        LocalDate retDate = LocalDate.of(2021, 8, 29);
-        Long tripId = tripService.createTrip(title,discription, cost, location, depDate, retDate);
-        return tripId;
+    @Test
+    public void testNoUsers() {
+        List<User> list = userService.getAllUsers(false);
+        assertEquals(0, list.size());
     }
+
 
     @Test
     public void testCreateUser() {
@@ -105,8 +107,8 @@ public class UserServiceTest extends ServiceTestBase{
 
         boolean reCreated = userService.createUser(email, name, midleName, surename, address, postalCode, password);
         assertFalse(reCreated);
-
     }
+
 
     @Test
     public void testTooShortEmail(){
@@ -115,14 +117,13 @@ public class UserServiceTest extends ServiceTestBase{
         User user = createValidUser(myEMail);
 
         assertTrue( hasViolations( user ) );
-
-
     }
+
 
     @Test
     public void testTooLongEmail(){
         String x = "";
-        for(int i = 0; i < 255; i++){
+        for(int i = 0; i < 255; i++){ //max is set to 250 char
             x = x.concat("a");
         }
 
@@ -135,30 +136,36 @@ public class UserServiceTest extends ServiceTestBase{
     }
 
 
-
     @Test
-    public void testPasswordTooLong(){
+    public void testPasswordTooLongOrShort(){
         //Same principles here..
     }
 
-    @Test
-    public void testBookTrip(){
-        boolean createdUser = userService.createUser(email, name, midleName, surename, address, postalCode, password);
-        User user = userService.getUser(email, true);
-
-        Long tripId = createValidTrip("Thailand");
-        assertNotNull( tripId );
-
-        Long purchase_id = userService.bookTrip(user.getEmail(), tripId);
-        Purchase bookedTrip = userService.getBookedTrip(purchase_id);
-
-        assertNotNull(purchase_id);
-        assertEquals(user.getEmail(), bookedTrip.getUser().getEmail());
-    }
 
     @Test
     public void testGetWithPurchases(){
-        //TODO: finish after testing PurchaseServices
+        boolean created = userService.createUser(email, name, midleName, surename, address, postalCode, password);
+         assertTrue( created );
+         User user = userService.getUser(email, false);
+
+         LocalDate departureDate= LocalDate.now().plusYears(1);
+         LocalDate returnDate= departureDate.plusMonths(1);
+
+         Long trip1 = tripService.createTrip("aaa", "BBB", 4000, "Bahamas", departureDate, returnDate);
+         Long trip2 = tripService.createTrip("nnn", "CCCCC", 8000, "Spain", departureDate, returnDate);
+         Long trip3 = tripService.createTrip("vvv", "GGG", 9000, "Thailand", departureDate, returnDate);
+
+         Long booked1 = purchaseService.bookTrip(user.getEmail(), trip1);
+         Long booked2 = purchaseService.bookTrip(user.getEmail(), trip2);
+         Long booked3 = purchaseService.bookTrip(user.getEmail(), trip3);
+
+         User userAfterPurchase = userService.getUser(email, true);
+
+         assertEquals(3, userAfterPurchase.getPurchases().size());
+         assertTrue(userAfterPurchase.getPurchases().get(0).getTrip().getLocation() == "Bahamas");
+         assertTrue(userAfterPurchase.getPurchases().get(1).getTrip().getLocation() == "Spain");
+         assertTrue(userAfterPurchase.getPurchases().get(2).getTrip().getLocation() == "Thailand");
+
     }
 
 

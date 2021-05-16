@@ -1,5 +1,6 @@
 package org.studentnr.backend.service;
 
+import net.bytebuddy.asm.Advice;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,58 +17,138 @@ import static org.junit.jupiter.api.Assertions.*;
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(classes = StubApplication.class,
         webEnvironment = SpringBootTest.WebEnvironment.NONE)
-public class TripServiceTest  extends ServiceTestBase{
+public class TripServiceTest extends ServiceTestBase{
 
     @Autowired
     private TripService tripService;
 
+    LocalDate dateOfToday = LocalDate.now();
+    LocalDate departureDate= dateOfToday.plusYears(1).plusMonths(1);
+    LocalDate returnDate= departureDate.plusWeeks(3);
+
+    private Long createValidTrip(String location, Integer cost){
+        String title = "Some title";
+        String discription = "Discription about the trip. It is a nice trip. All included";
+
+        Long tripId = tripService.createTrip( title, discription, cost, location, departureDate, returnDate );
+        return tripId;
+    }
+
+
+    private void createMultipleTrips(){
+        Long thailand = createValidTrip("Thailand",30000);
+        Long thailand3 = createValidTrip("Thailand",30000);
+        Long thailand2 = createValidTrip("Thailand",30000);
+        Long spain = createValidTrip("Spain",40000);
+        Long spain2 = createValidTrip("Spain",40000);
+        Long spain3 = createValidTrip("Spain",40000);
+        Long russia = createValidTrip("Russia",50000);
+        Long russia2 = createValidTrip("Russia",50000);
+        Long pakistan = createValidTrip("Pakistan", 1500);
+        Long pakistan2 = createValidTrip("Pakistan", 1500);
+        Long pakistan3 = createValidTrip("Pakistan", 1500);
+        Long somalia = createValidTrip("Somalia",1000);
+    }
+
+
+
+    @Test
+    public void testNoTrips(){
+        List<Trip> trips = tripService.getAllTripsOrderByCostAscending();
+        assertEquals(0, trips.size());
+    }
+
 
     @Test
     public void testCreateTrip(){
-        Long tripId = createValidTrip("Russia");
+        Long tripId = createValidTrip("Russia", 10000);
         assertNotNull(tripId);
     }
 
     @Test
     public void testGetTripById(){
-        Long tripID = createValidTrip("Thailand");
+        Long tripID = createValidTrip("Thailand", 10000);
         Trip trip = tripService.getTrip(tripID);
         assertEquals(tripID, trip.getId());
     }
 
     @Test
-    public void testGetAllTrips(){
-        Long trip1 = createValidTrip("Thailand");
-        Long trip2 = createValidTrip("Spain");
-        Long trip3 = createValidTrip("Russia");
+    public void testGetAllTripsOrderByCostAscending(){
+        createMultipleTrips();
+        List<Trip> tripList = tripService.getAllTripsOrderByCostAscending();
 
-        List<Trip> tripList = tripService.getAllTrips();
-        assertEquals(3, tripList.size());
+        assertEquals(12, tripList.size());
 
-        assertEquals(trip1, tripList.get(0).getId());
-        assertEquals(trip2, tripList.get(1).getId());
-        assertEquals(trip3, tripList.get(2).getId());
+        assertEquals("Somalia", tripList.get(0).getLocation() ); //cost=1000
+        assertEquals("Pakistan", tripList.get(1).getLocation() );//cost=1500 .
+        assertEquals("Pakistan", tripList.get(2).getLocation() );
+        assertEquals("Pakistan", tripList.get(3).getLocation() );
+        assertEquals("Thailand", tripList.get(4).getLocation() );//cost=30000
+        assertEquals("Thailand", tripList.get(5).getLocation() );
+        assertEquals("Thailand", tripList.get(6).getLocation() );
     }
-
-
-
-    private Long createValidTrip(String location){
-        String title = "Familytrip to Greek";
-        String discription = "Discription about the trip. It is a nice trip. All included";
-        Integer cost = 12000;
-
-        LocalDate dateOfToday = LocalDate.now();
-        LocalDate depDate= dateOfToday.plusYears(1).plusMonths(1);
-        LocalDate retDate= depDate.plusWeeks(3);
-
-        Long tripId = tripService.createTrip(title,discription, cost, location, depDate, retDate);
-        return tripId;
-    }
-
 
     @Test
-    public void testDeleteTrip() {
+    void testGetByTripLocationOrderByCostAscending() {
+        createMultipleTrips();
+
+        String thailand = "Thailand";
+        String spain = "Spain";
+
+        List< Trip > tripsByLocationThai = tripService.getByTripLocationOrderByCostAscending( thailand );
+        List< Trip > tripsByLocationSpain = tripService.getByTripLocationOrderByCostAscending( spain );
+
+        assertEquals(3, tripsByLocationSpain.size() );
+        assertEquals(3, tripsByLocationThai.size() );
+    }
+
+    @Test
+    void testGetByCostOrderByCostAscending() {
+        createMultipleTrips();
+
+        List<Trip> tripsByCost = tripService.getByCostOrderByCostAscending( 10 );
+        assertEquals(0, tripsByCost.size() );
+
+        tripsByCost = tripService.getByCostOrderByCostAscending( 30000 );
+
+        assertEquals(3, tripsByCost.size()); //should be 3 trips to Thailand..
+    }
+
+    @Test
+    void getByDepartureDateOrderByCostAscending() {
+        createMultipleTrips();
+
+        List< Trip > noTrips = tripService.getByDepartureDateOrderByCostAscending( dateOfToday );
+        assertEquals(0, noTrips.size() );
+
+        List<Trip> existingTrips = tripService.getByDepartureDateOrderByCostAscending( departureDate );
+        assertEquals(12, existingTrips.size() );
 
     }
 
+    @Test
+    void testDeleteTrip() {
+        String location = "Danmark";
+        Long tripId = createValidTrip(location, 4000);
+        assertNotNull( tripId );
+
+        Trip trip = tripService.getTrip( tripId );
+
+        assertEquals( location, trip.getLocation() );
+        assertTrue( tripService.deleteTrip( tripId ) );
+        assertNull( tripService.getTrip( tripId ) );
+    }
+
+    @Test
+    void getTop_N_Trips() {
+        createMultipleTrips();
+         List<Trip> trips = tripService.getTop_N_Trips( 5 );
+
+         assertEquals(5, trips.size());
+         assertTrue( trips.get( 0 ).getCost() == 1000 ); //Somalia
+         assertTrue( trips.get( 1 ).getCost() == 1500 ); //Pakistan
+         assertTrue( trips.get( 2 ).getCost() == 1500 ); //Pakistan
+         assertTrue( trips.get( 3 ).getCost() == 1500 ); //Pakistan
+         assertTrue( trips.get( 4 ).getCost() == 30000 ); //Thailand
+    }
 }

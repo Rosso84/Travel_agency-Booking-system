@@ -76,34 +76,6 @@ public class UserService {
         return users;
     }
 
-    public Long bookTrip(String userId, Long tripId) {
-        User user = em.find(User.class, userId);
-        Trip trip = em.find(Trip.class, tripId);
-
-        if (user == null) {
-            throw new IllegalArgumentException("User with id " + userId + " does not exist");
-        }
-
-        if (trip == null) {
-            throw new IllegalArgumentException("Trip with id " + tripId + " does not exist");
-        }
-
-        LocalDate todaysDate = LocalDate.now();
-
-        Purchase purchase = new Purchase();
-        purchase.setUser( user );
-        purchase.setTrip( trip );
-        purchase.setBookedDate( todaysDate );
-        em.persist( purchase );
-
-        user.getPurchases().add( purchase );
-
-        return purchase.getId();
-    }
-
-    public Purchase getBookedTrip(long id){
-        return em.find(Purchase.class, id);
-    }
 
 
 }

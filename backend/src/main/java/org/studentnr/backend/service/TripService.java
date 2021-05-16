@@ -39,43 +39,54 @@ public class TripService {
     }
 
 
-     public boolean deleteTrip(Long trip_id){
+    //TODO: if with FLights and seats remember to get size
+    public List<Trip> getAllTripsOrderByCostAscending() {
+        TypedQuery<Trip> query = em.createQuery("select c from Trip c order by c.cost asc", Trip.class);
+        List<Trip> trips = query.getResultList();
+
+        return trips;
+    }
+
+    public List<Trip> getByTripLocationOrderByCostAscending(String location) {
+        TypedQuery<Trip> query = em.createQuery("select t from Trip t where t.location = ?1 order by t.cost asc", Trip.class);
+        query.setParameter(1, location);
+        List<Trip> trips = query.getResultList();
+
+        return trips;
+    }
+
+    public List<Trip> getByCostOrderByCostAscending(Integer cost) {
+        TypedQuery<Trip> query = em.createQuery("select c from Trip c where c.cost = ?1 order by c.cost asc", Trip.class);
+        query.setParameter(1, cost);
+        List<Trip> trips = query.getResultList();
+
+        return trips;
+    }
+
+    public List<Trip> getByDepartureDateOrderByCostAscending(LocalDate departureDate) {
+        TypedQuery<Trip> query = em.createQuery("select c from Trip c where c.departureDate = ?1 order by c.cost asc", Trip.class);
+        query.setParameter(1, departureDate);
+        List<Trip> trips = query.getResultList();
+
+        return trips;
+    }
+
+    public List<Trip> getTop_N_Trips( int number_of_trips ) {
+        TypedQuery<Trip> query = em.createQuery("select t from Trip t order by t.cost asc", Trip.class);
+        query.setMaxResults(number_of_trips);
+
+        return query.getResultList();
+    }
+
+
+    //TODO: need to prevent sql inject??
+    public boolean deleteTrip( Long trip_id ){
         Trip trip = em.find( Trip.class, trip_id );
         if ( trip == null ){
             throw new IllegalArgumentException("Trip with id " + trip + " does not exist");
         }
         em.remove( trip );
         return true;
-     }
-
-
-    //TODO: if with FLights and seats remember to get size
-    public List<Trip> getAllTrips() {
-        TypedQuery<Trip> query = em.createQuery("select c from Trip c", Trip.class);
-        List<Trip> trips = query.getResultList();
-
-        return trips;
-    }
-
-    public List<Trip> getByTripLocation(String location) {
-        TypedQuery<Trip> query = em.createQuery("select c from Trip c where c.location = " +location+ " order by c.cost asc", Trip.class);
-        List<Trip> trips = query.getResultList();
-
-        return trips;
-    }
-
-    public List<Trip> getByCost(Integer cost) {
-        TypedQuery<Trip> query = em.createQuery("select c from Trip c where c.cost = " +cost+ " order by c.cost asc", Trip.class);
-        List<Trip> trips = query.getResultList();
-
-        return trips;
-    }
-
-    public List<Trip> getByDepartureDate(LocalDate departureDate) {
-        TypedQuery<Trip> query = em.createQuery("select c from Trip c where c.departureDate = " +departureDate+ " order by c.cost asc", Trip.class);
-        List<Trip> trips = query.getResultList();
-
-        return trips;
     }
 
 }

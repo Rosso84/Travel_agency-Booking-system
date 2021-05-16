@@ -30,8 +30,8 @@ public class ResetService {
         query.executeUpdate();
 
         deleteEntities(Purchase.class);
-        deleteEntities(User.class);
         deleteEntities(Trip.class);
+        deleteEntities(User.class);
     }
 
     private void deleteEntities(Class<?> entity){

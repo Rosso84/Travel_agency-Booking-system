@@ -24,7 +24,11 @@ public class Trip {
 
     @NotBlank
     @Size(max = 150)
-    private String location;  //TODO: might need an ENUM for places
+    private String location;  //TODO: might need an ENUM for Country
+
+/*    @NotBlank
+    @Size(max = 150)
+    private String City;  //TODO: might need an ENUM for cities*/
 
     @NotNull
     @Future
