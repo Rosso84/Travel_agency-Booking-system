@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+      xmlns:p="http://xmlns.jcp.org/jsf/passthrough"
+>
+<!--xmlns:c="http://java.sun.com/jsp/jstl/core"-->
+
+<ui:composition template="/layout.xhtml">
+
+    <ui:define name="title">
+        User Details
+    </ui:define>
+
+
+    <ui:define name="content">
+
+        <h4>Account details</h4>
+
+        <c:set value="#{userInfoController.userInfoWithPurchases}" var="user"/>
+        <p>Name: #{user.firstname}</p> <br/>
+        <p>Middlename: #{user.middleName}</p> <br/>
+        <p>Surename: #{user.surename}</p> <br/>
+        <p>Address: #{user.address}</p> <br/>
+        <p>Postal code: #{user.postalCode}</p> <br/>
+        <p>Email: #{user.email}</p> <br/><br/>
+
+        <h4>Your Purchases</h4>
+        <c:forEach var="purchase" items="#{user.purchases}">
+            <h:form prependId="false">
+                <p>Location: #{purchase.trip.location}  DepartureDate: #{purchase.trip.departureDate}  ReurnDate: #{purchase.trip.returnDate}</p>
+                <hr/>
+            </h:form>
+        </c:forEach>
+
+
+    </ui:define>
+
+</ui:composition>
+</html>

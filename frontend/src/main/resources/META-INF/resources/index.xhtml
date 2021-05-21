@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:sec="http://www.springframework.org/security/tags"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+      xmlns:p="http://xmlns.jcp.org/jsf/passthrough">
+
+
+<ui:composition template="/layout.xhtml">
+
+    <ui:define name="title">
+        Travel Agency
+    </ui:define>
+
+
+    <ui:define name="content">
+
+
+        <sec:authenticated>
+
+            <h2>Top #{tripController.numberOfTopTrips} Trips</h2>
+            <c:forEach var="trip" items="#{tripController.topNTripsList}">
+                <h:form prependId="false">
+                    <h:commandButton
+                            value="#{trip.location}"
+                            action="#{ purchaseController.bookTrip( userInfoController.userName, trip.id ) }"
+                            class="gameBtn"
+                    />
+                </h:form>
+            </c:forEach>
+
+            <hr/>
+            <h2>Search Trips</h2>
+            <h:outputText value="Location: "/>
+            <h:inputText id="inputTxtLocationId" class="login"/><br/>
+            <h:commandButton id="btnSubmitSearchLocationId" value="Search" class="gameBtn"/>
+
+
+        </sec:authenticated>
+
+
+        <sec:anonymous>
+            <h2>Top #{tripController.numberOfTopTrips} Trips</h2>
+            <c:forEach var="trip" items="#{tripController.topNTripsList}">
+                <h:form prependId="false">
+                    <a id="linkToTripDetailId" href="tripDetail.xhtml" class="btn">
+                        Location: #{trip.location}  Title: #{trip.title}  #{trip.cost}NOK
+                    </a>
+                    <br/>
+                </h:form>
+            </c:forEach>
+            <h3>Login to book Trips!</h3>
+
+            <hr/>
+            <h2>Search Trips</h2>
+            <h:form>
+                <h:outputText value="Location: "/>
+                <h:inputText id="inputTxtLocationIdAnonymous" value="#{tripController.location}" class="login"/>
+                <h:commandButton id="btnSubmitSearchLocationIdAnonymous" value="Search"
+                                 action="#{tripController.retrieveTripsByLocation}" class="gameBtn"/>
+                <hr/>
+                <c:forEach var="trip" items="#{tripController.tripsByLocationList}">
+                    <h:form prependId="false">
+                        <h:commandButton
+                                value="#{trip.cost}NOK   Departure:#{trip.departureDate} Return:#{trip.returnDate}"
+                                class="gameBtn"
+                        />
+                    </h:form>
+                </c:forEach>
+            </h:form>
+        </sec:anonymous>
+
+    </ui:define>
+
+</ui:composition>
+</html>
