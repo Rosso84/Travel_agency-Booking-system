@@ -93,14 +93,14 @@ public class DefaultDataInitializerService {
                 9000, "ethiopia", depDate3, returnDate3));
 
 
-        Long uruguayTrip = attempt(() -> tripService.createTrip("Trip to Uruguay", "Nice people, close to banks, stores near by, many places to rent cars.",
-                13000, "mallorca", depDate2, returnDate2));
-        Long uruguayTrip1 = attempt(() -> tripService.createTrip("Trip to Uruguay", "Nice people, close to banks, stores near by, many places to rent cars.",
-                2000, "mallorca", depDate3, returnDate3));
-         Long uruguayTrip3 = attempt(() -> tripService.createTrip("Trip to Uruguay", "Nice people, close to banks, stores near by, many places to rent cars.",
-                4000, "mallorca", depDate4, returnDate4));
-        Long uruguayTrip4 = attempt(() -> tripService.createTrip("Trip to Uruguay", "Nice people, close to banks, stores near by, many places to rent cars.",
-                8000, "mallorca", depDate8, returnDate8));
+        Long uruguayTrip = attempt(() -> tripService.createTrip("Trip to capital city", "Nice people, close to banks, stores near by, many places to rent cars.",
+                13000, "uruguay", depDate2, returnDate2));
+        Long uruguayTrip1 = attempt(() -> tripService.createTrip("Trip to capital city", "Nice people, close to banks, stores near by, many places to rent cars.",
+                2000, "uruguay", depDate3, returnDate3));
+         Long uruguayTrip3 = attempt(() -> tripService.createTrip("Trip to capital city", "Nice people, close to banks, stores near by, many places to rent cars.",
+                4000, "uruguay", depDate4, returnDate4));
+        Long uruguayTrip4 = attempt(() -> tripService.createTrip("Trip to capital city", "Nice people, close to banks, stores near by, many places to rent cars.",
+                8000, "uruguay", depDate8, returnDate8));
 
 
         attempt( () -> purchaseService.bookTrip( userId, franceTrip ) );

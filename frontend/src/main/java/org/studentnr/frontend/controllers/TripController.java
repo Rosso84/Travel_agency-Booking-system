@@ -50,9 +50,9 @@ public class TripController implements Serializable {
         return this.tripsByLocationList;
     }
 
-    public void retrieveTripsByLocation() {
-        System.out.println(" from retrieveTripByLocation chosen. location: "+ this.location );
-         this.tripsByLocationList = tripService.getByTripLocationOrderByCostAscending( this.location );
+    public void retrieveTripsByLocation(String location) {
+        System.out.println(" from retrieveTripByLocation chosen. location: "+ location );
+         this.tripsByLocationList = tripService.getByTripLocationOrderByCostAscending( location );
     }
 
     public String getLocation() {

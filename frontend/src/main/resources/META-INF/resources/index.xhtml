@@ -24,7 +24,7 @@
             <c:forEach var="trip" items="#{tripController.topNTripsList}">
                 <h:form prependId="false">
                     <h:commandButton
-                            value="#{trip.location}"
+                            value="#{trip.location} Price:#{trip.cost}    #{trip.description}"
                             action="#{ purchaseController.bookTrip( userInfoController.userName, trip.id ) }"
                             class="gameBtn"
                     />
@@ -33,10 +33,21 @@
 
             <hr/>
             <h2>Search Trips</h2>
-            <h:outputText value="Location: "/>
-            <h:inputText id="inputTxtLocationId" class="login"/><br/>
-            <h:commandButton id="btnSubmitSearchLocationId" value="Search" class="gameBtn"/>
 
+
+            <h:form>
+                <h:outputText value="Location: "/>
+                <h:inputText id="inputTxtLocationId" class="login" value="#{tripController.location}"/>
+                <h:commandButton id="btnSubmitSearchLocationId" value="Search" class="gameBtn"
+                                 action="#{tripController.retrieveTripsByLocation( tripController.location )}"/>
+                <br/>
+                <c:forEach var="trip" items="#{tripController.tripsByLocationList}">
+                    <a id="linkToTripDetailId" href="tripDetail.xhtml" class="btn">
+                        Location: #{trip.location}  Price: #{trip.cost}NOK
+                    </a>
+                    <br/>
+                </c:forEach>
+            </h:form>
 
         </sec:authenticated>
 
@@ -45,12 +56,13 @@
             <h2>Top #{tripController.numberOfTopTrips} Trips</h2>
             <c:forEach var="trip" items="#{tripController.topNTripsList}">
                 <h:form prependId="false">
-                    <a id="linkToTripDetailId" href="tripDetail.xhtml" class="btn">
+                   <!-- <a id="linkToTripDetailId" href="tripDetail.xhtml" class="btn">
                         Location: #{trip.location}  Title: #{trip.title}  #{trip.cost}NOK
-                    </a>
+                    </a>-->
                     <br/>
                 </h:form>
             </c:forEach>
+
             <h3>Login to book Trips!</h3>
 
             <hr/>
@@ -59,15 +71,14 @@
                 <h:outputText value="Location: "/>
                 <h:inputText id="inputTxtLocationIdAnonymous" value="#{tripController.location}" class="login"/>
                 <h:commandButton id="btnSubmitSearchLocationIdAnonymous" value="Search"
-                                 action="#{tripController.retrieveTripsByLocation}" class="gameBtn"/>
+                                 action="#{tripController.retrieveTripsByLocation ( tripController.location )}"
+                                 class="gameBtn"/>
                 <hr/>
+
                 <c:forEach var="trip" items="#{tripController.tripsByLocationList}">
-                    <h:form prependId="false">
-                        <h:commandButton
-                                value="#{trip.cost}NOK   Departure:#{trip.departureDate} Return:#{trip.returnDate}"
-                                class="gameBtn"
-                        />
-                    </h:form>
+                    <p>
+                        #{trip.cost}NOK Departure:#{trip.departureDate} Return:#{trip.returnDate}
+                    </p>
                 </c:forEach>
             </h:form>
         </sec:anonymous>
