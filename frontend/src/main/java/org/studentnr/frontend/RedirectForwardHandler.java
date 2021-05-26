@@ -11,4 +11,6 @@ public class RedirectForwardHandler {
     public String forward(){
         return "forward:index.xhtml";
     }
+
+
 }

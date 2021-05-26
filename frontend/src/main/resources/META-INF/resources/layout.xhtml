@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE html>
-<html   xmlns="http://www.w3.org/1999/xhtml"
-        xmlns:h="http://xmlns.jcp.org/jsf/html"
-        xmlns:sec="http://www.springframework.org/security/tags"
-        xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:sec="http://www.springframework.org/security/tags"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
 >
 
 <head>
@@ -13,7 +14,7 @@
     <meta name="description" content=""/>
     <meta name="author" content=""/>
 
-    <link rel="stylesheet" href="/META-INF/resources/assets/style.css"/>
+    <link rel="stylesheet" href="/assets/style.css"/>
 
 
     <title>
@@ -27,23 +28,28 @@
 <body>
 
 <sec:authenticated>
-    <p><h:outputText value="Logged in as: #{userInfoController.userName}"/></p>
+    <c:set value="#{userInfoController.userInfoWithoutPurchases}" var="user"/>
 
-    <a id="logoutId" href="logout" class="btn">Log Out</a>
-    <br/>
-    <a id="linkToUserDetailId" href="userDetail.jsf" class="btn">My Account</a>
-    <br/>
-    <a href="/index.xhtml" class="btn">Home</a>
+    <p class="welcome_message">Welcome #{user.firstname}!! </p>
+
+    <a href="index.jsf" class="btn btn-white btn-animation-1">Home</a>
+
+    <a href="userDetail.jsf" class="btn btn-white btn-animation-1">My Account</a>
+
+    <a href="logout" class="btn btn-white btn-animation-1">Log Out</a>
+
+
+    <p class="username_Email">Logged in as: #{userInfoController.userName} </p>
 
     <h2>Travel Agency</h2>
-
 </sec:authenticated>
 
 
 <sec:anonymous>
     <p>You are not logged in</p>
-    <a id="linkToLoginId" href="login.jsf" class="btn">Log In</a>
-    <a id="linkToSignupId" href="signup.jsf" class="btn" >Sign Up</a>
+    <a id="linkToLoginId" href="login.jsf" class="btn btn-white btn-animation-1">Log In</a>
+    <a id="linkToSignupId" href="signup.jsf" class="btn btn-white btn-animation-1">Sign Up</a>
+    <a href="/index.jsf" class="btn btn-white btn-animation-1">Home</a>
 
     <h2>Travel Agency</h2>
 </sec:anonymous>
@@ -51,8 +57,7 @@
 <hr/>
 
 
-
-<ui:insert name="content" />
+<ui:insert name="content"/>
 
 <hr/>
 

@@ -20,6 +20,7 @@
         <h4>Account details</h4>
 
         <c:set value="#{userInfoController.userInfoWithPurchases}" var="user"/>
+
         <p>Name: #{user.firstname}</p> <br/>
         <p>Middlename: #{user.middleName}</p> <br/>
         <p>Surename: #{user.surename}</p> <br/>
@@ -30,7 +31,12 @@
         <h4>Your Purchases</h4>
         <c:forEach var="purchase" items="#{user.purchases}">
             <h:form prependId="false">
-                <p>Location: #{purchase.trip.location}  DepartureDate: #{purchase.trip.departureDate}  ReurnDate: #{purchase.trip.returnDate}</p>
+                <p>
+                    Location: <span style="color:blue">#{purchase.trip.location}</span>
+                    DepartureDate: <span style="color:blue">#{purchase.trip.departureDate}</span>
+                    Return Date: <span style="color:blue">#{purchase.trip.returnDate}</span>
+                    PurchaseDate: <span style="color:blue">#{purchase.bookedDate}</span>
+                </p>
                 <hr/>
             </h:form>
         </c:forEach>

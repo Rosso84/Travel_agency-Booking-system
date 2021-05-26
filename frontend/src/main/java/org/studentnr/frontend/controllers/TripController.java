@@ -41,19 +41,25 @@ public class TripController implements Serializable {
         this.numberOfTopTrips = numberOfTopTrips;
     }
 
+
     public void setTopNTripsList( List<Trip> topNTripsList ) {
         this.topNTripsList = topNTripsList;
     }
 
+
     public List<Trip> getTripsByLocationList() {
-        System.out.println("getTripsList chosen. location: "+ this.location );
         return this.tripsByLocationList;
     }
 
-    public void retrieveTripsByLocation(String location) {
-        System.out.println(" from retrieveTripByLocation chosen. location: "+ location );
-         this.tripsByLocationList = tripService.getByTripLocationOrderByCostAscending( location );
+    public boolean getTripsByLocationListIsEmptyOrNull(){
+        return getTripsByLocationList().size() == 0 || getTripsByLocationList() == null;
     }
+
+
+    public void retrieveTripsByLocation(String location) {
+         this.tripsByLocationList = tripService.getByTripLocationOrderByCostAscending( location.toLowerCase() );
+    }
+
 
     public String getLocation() {
         return location;
@@ -62,4 +68,6 @@ public class TripController implements Serializable {
     public void setLocation(String location) {
         this.location = location;
     }
+
+
 }

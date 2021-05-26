@@ -24,7 +24,6 @@ public class UserInfoController implements Serializable {
     private User user;
 
 
-
     public String getUserName(){
         return ((UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUsername();
     }
