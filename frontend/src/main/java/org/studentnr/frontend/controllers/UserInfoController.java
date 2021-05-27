@@ -38,4 +38,8 @@ public class UserInfoController implements Serializable {
         return user;
     }
 
+    public boolean isPurchasesEmpty(User user){
+        return user.getPurchases().size() > 0;
+    }
+
 }

@@ -25,19 +25,22 @@
                 <h:commandButton id="btnSubmitSearchLocationId" value="Search" class="gameBtn"
                                  action="#{tripController.retrieveTripsByLocation( tripController.location )}"/>
                 <br/>
-                <c:when test="#{tripController.tripsByLocationListIsEmptyOrNull}">
-                    <p>Available trips for '#{tripController.location}'</p>
-                </c:when>
-                <c:otherwise>
-                    <c:forEach var="trip" items="#{tripController.tripsByLocationList}">
-                        <a id="linkToTripDetailId" href="tripDetail.jsf" class="btn">
-                            <p>#{trip.title}</p>
-                            <p>#{trip.description}</p>
-                            <p>#{trip.cost} NOK</p>
-                        </a>
-                        <br/>
-                    </c:forEach>
-                </c:otherwise>
+                <c:choose>
+                    <c:when test="#{tripController.tripsByLocationListIsEmptyOrNull}">
+                        <p>Available trips for '#{tripController.location}'</p>
+                    </c:when>
+                    <c:otherwise>
+                        <c:forEach var="trip" items="#{tripController.tripsByLocationList}">
+                            <a id="linkToTripDetailId" href="tripDetail.jsf" class="btn">
+                                <p>#{trip.title}</p>
+                                <p>#{trip.description}</p>
+                                <p>#{trip.cost} NOK</p>
+                            </a>
+                            <br/>
+                        </c:forEach>
+                    </c:otherwise>
+                </c:choose>
+
             </h:form>
 
             <h2>Top #{tripController.numberOfTopTrips} Trips</h2>

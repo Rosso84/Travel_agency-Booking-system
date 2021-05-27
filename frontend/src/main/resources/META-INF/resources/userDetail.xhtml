@@ -29,17 +29,24 @@
         <p>Email: #{user.email}</p> <br/><br/>
 
         <h4>Your Purchases</h4>
-        <c:forEach var="purchase" items="#{user.purchases}">
-            <h:form prependId="false">
-                <p>
-                    Location: <span style="color:blue">#{purchase.trip.location}</span>
-                    DepartureDate: <span style="color:blue">#{purchase.trip.departureDate}</span>
-                    Return Date: <span style="color:blue">#{purchase.trip.returnDate}</span>
-                    PurchaseDate: <span style="color:blue">#{purchase.bookedDate}</span>
-                </p>
-                <hr/>
-            </h:form>
-        </c:forEach>
+        <c:choose>
+            <c:when test="#{userInfoController.isPurchasesEmpty( user )}">
+                <c:forEach var="purchase" items="#{user.purchases}">
+                    <h:form prependId="false">
+                        <p>
+                            Location: <span style="color:blue">#{purchase.trip.location}</span>
+                            DepartureDate: <span style="color:blue">#{purchase.trip.departureDate}</span>
+                            Return Date: <span style="color:blue">#{purchase.trip.returnDate}</span>
+                            PurchaseDate: <span style="color:blue">#{purchase.bookedDate}</span>
+                        </p>
+                        <hr/>
+                    </h:form>
+                </c:forEach>
+            </c:when>
+            <c:otherwise>
+                <p>You have not booked any trips yet</p>
+            </c:otherwise>
+        </c:choose>
 
 
     </ui:define>
