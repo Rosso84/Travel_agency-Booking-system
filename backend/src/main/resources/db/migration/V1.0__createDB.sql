@@ -9,4 +9,4 @@ alter table users add constraint UK_46ccwnsi9409t36lurvtyljak unique (email);
 alter table user_roles add constraint FKs9rxtuttxq2ln7mtp37s4clce foreign key (user_email) references users;
 alter table purchase add constraint FKlqrv1aj0pon999jbi5esfpe4k foreign key (user_email) references users;
 alter table purchase add constraint FKlqrv1aj0pon999jbi5esfkdjf foreign key (trip_id) references Trip;
-/*alter table trip add constraint FK4t4a8c1ploau9vfknu3t6tl7d foreign key (purchase_id) references purchase;*/
+

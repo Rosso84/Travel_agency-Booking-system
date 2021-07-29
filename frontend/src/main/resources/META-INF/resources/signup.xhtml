@@ -15,9 +15,6 @@
     <ui:define name="content">
 
         <h:form prependId="false">
-            <div>
-                <h:outputLabel value="Email and/or password are wrong."
-                               rendered="${!empty param['error']}"/>
 
                 <h:outputText value="Email: "/>
                 <h:inputText id="username" value="#{signUpController.email}" class="login"/><br/>
@@ -40,8 +37,14 @@
                 <h:outputText value="Password: "/>
                 <h:inputSecret id="password" value="#{signUpController.password}" class="login"/><br/>
 
-                <h:commandButton id="submit" value="Sign Up" action="#{signUpController.signUpUser}" class="btn btn-white btn-animation-1"/>
-            </div>
+                <h:commandButton id="signupSubmitBtn" value="Sign Up" action="#{signUpController.signUpUser}" class="submit"/>
+
+                <br/>
+                <h:outputLabel style="color: red; font-size: 15px;" value="
+                Email you provided is either not available or wrong format or
+                password you provided is less than 6 characters."
+                           rendered="${!empty param['error']}"/>
+
         </h:form>
 
 

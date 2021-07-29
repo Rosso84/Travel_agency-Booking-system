@@ -25,21 +25,19 @@ public class SignUpController {
     private UserDetailsService userDetailsService;
 
     private String email;
-
     private String firstName;
-
     private String midleName;
-
     private String sureName;
-
     private String address;
-
     private String postalCode;
     private String password;
 
 
 
     public String signUpUser(){
+        if (password.length() < 6){
+            return "/signup.jsf?faces-redirect=true&error=true";
+        }
 
         boolean registered = false;
         try {

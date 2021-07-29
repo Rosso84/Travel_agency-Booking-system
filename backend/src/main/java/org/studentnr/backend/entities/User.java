@@ -39,7 +39,7 @@ public class User {
     private String postalCode;
 
     @NotBlank
-    @Size(min = 8, max = 250)
+    @Size(max = 250)
     private String password;
 
 

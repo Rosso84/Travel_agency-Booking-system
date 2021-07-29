@@ -171,11 +171,11 @@ public class TripServiceTest extends ServiceTestBase{
          List<Trip> trips = tripService.getTop_N_Trips( 5 );
 
          assertEquals(5, trips.size());
-         assertTrue( trips.get( 0 ).getCost() == 1000 ); //Somalia
-         assertTrue( trips.get( 1 ).getCost() == 1500 ); //Pakistan
-         assertTrue( trips.get( 2 ).getCost() == 1500 ); //Pakistan
-         assertTrue( trips.get( 3 ).getCost() == 1500 ); //Pakistan
-         assertTrue( trips.get( 4 ).getCost() == 30000 ); //Thailand
+        assertEquals(1000, trips.get(0).getCost() ); //Somalia
+        assertEquals(1500, trips.get(1).getCost()); //Pakistan
+        assertEquals(1500, trips.get(2).getCost()); //Pakistan
+        assertEquals(1500, trips.get(3).getCost()); //Pakistan
+        assertEquals(30000, trips.get(4).getCost()); //Thailand
     }
 
     @Test

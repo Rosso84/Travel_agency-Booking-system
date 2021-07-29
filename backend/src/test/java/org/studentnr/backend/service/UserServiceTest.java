@@ -7,11 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.studentnr.backend.StubApplication;
-import org.studentnr.backend.entities.Purchase;
-import org.studentnr.backend.entities.Trip;
 import org.studentnr.backend.entities.User;
 
-import javax.persistence.Persistence;
 import javax.validation.*;
 
 import java.time.LocalDate;
@@ -63,7 +60,7 @@ public class UserServiceTest extends ServiceTestBase{
     }
 
 
-    public User createValidUser(String email){
+    public User createValidUser(String email, String password){
         User user = new User();
         user.setEmail(email);
         user.setFirstname(name);
@@ -101,12 +98,12 @@ public class UserServiceTest extends ServiceTestBase{
 
 
     @Test
-    public void testCreateTwice(){
+    public void testCreateTwiceFails(){
         boolean created = userService.createUser(email, name, midleName, surename, address, postalCode, password);
-        assertTrue(created);
+        assertTrue( created );
 
         boolean reCreated = userService.createUser(email, name, midleName, surename, address, postalCode, password);
-        assertFalse(reCreated);
+        assertFalse( reCreated );
     }
 
 
@@ -114,7 +111,7 @@ public class UserServiceTest extends ServiceTestBase{
     public void testTooShortEmail(){
         String myEMail = "x@f.n";
 
-        User user = createValidUser(myEMail);
+        User user = createValidUser(myEMail, password);
 
         assertTrue( hasViolations( user ) );
     }
@@ -122,23 +119,40 @@ public class UserServiceTest extends ServiceTestBase{
 
     @Test
     public void testTooLongEmail(){
+
         String x = "";
-        for(int i = 0; i < 255; i++){ //max is set to 250 char
+        for(int i = 0; i < 300; i++){ //max is set to 250 char
             x = x.concat("a");
         }
 
         String email = "Rossi";
         email = email.concat(x);
         email = email.concat("@Gmail.com");
-        User user = createValidUser(email);
+
+        User user = createValidUser(email, password);
 
         assertTrue( hasViolations( user ) );
     }
 
 
+
     @Test
-    public void testPasswordTooLongOrShort(){
-        //Same principles here..
+    public void testHashedPasswordTooLong(){
+
+        /**
+         * Note the password will be hashed after encryption and returns a larger String of mixed values,
+         * so this does not test how many characters a user inputs but rather how big the hashed password is.
+         * Limit of length should be set in frontend*/
+
+        String hashedPassword = "";
+
+        for(int i = 0; i < 300; i++){ //max is set to 250 char
+            hashedPassword = hashedPassword.concat("a");
+        }
+
+        User user2 = createValidUser( email, hashedPassword );
+        assertTrue( hasViolations( user2 ) );
+
     }
 
 
@@ -146,6 +160,7 @@ public class UserServiceTest extends ServiceTestBase{
     public void testGetWithPurchases(){
         boolean created = userService.createUser(email, name, midleName, surename, address, postalCode, password);
          assertTrue( created );
+
          User user = userService.getUser(email, false);
 
          LocalDate departureDate= LocalDate.now().plusYears(1);
@@ -155,9 +170,9 @@ public class UserServiceTest extends ServiceTestBase{
          Long trip2 = tripService.createTrip("nnn", "CCCCC", 8000, "Spain", departureDate, returnDate);
          Long trip3 = tripService.createTrip("vvv", "GGG", 9000, "Thailand", departureDate, returnDate);
 
-         Long booked1 = purchaseService.bookTrip(user.getEmail(), trip1);
-         Long booked2 = purchaseService.bookTrip(user.getEmail(), trip2);
-         Long booked3 = purchaseService.bookTrip(user.getEmail(), trip3);
+         purchaseService.bookTrip(user.getEmail(), trip1);
+         purchaseService.bookTrip(user.getEmail(), trip2);
+         purchaseService.bookTrip(user.getEmail(), trip3);
 
          User userAfterPurchase = userService.getUser(email, true);
 

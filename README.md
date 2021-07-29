@@ -5,6 +5,8 @@ For building GUIs, the repository
 Quizgame-SAP-FullStack-Webapp-in-ReactJS' (https://github.com/Rosso84/Quizgame-SAP-FullStack-Webapp-in-ReactJS) should be used. It relies on knowledge of JavaScript and Single-Page-Applications and focuses more on frontend side of a webapp.
 This enterprise application uses JSF as frontend simply because I am still learning and following the materials of my former teachers materials (which can be viewed here: https://github.com/arcuri82/testing_security_development_enterprise_systems/blob/master/doc/intro/main.md). Eventually I will later on switch the current frontend with ReactJS.
 
+Note: some of the codes used here has legally been reused from teachers repository.
+
 ## Requirements
 JDK 11 (download it from https://adoptopenjdk.net/, do not use the JDK from Oracle)
 

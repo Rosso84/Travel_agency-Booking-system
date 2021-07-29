@@ -31,22 +31,21 @@ html, body {
     transform : translate(-50% ,-50%);
 }
 
-.username_Email{
+.userdetail-info-div{
     position: relative;
-    top: 4%;
-    right: 1%;
-    font-size: 13px;
-    width: fit-content;
-}
-
-
-/*.account_logout_btn_div{
+    top: 30%;
+    left: 10%;
     width: fit-content;
     height: fit-content;
-    position:absolute;
-    top:12%;
-    right:4%;
-}*/
+}
+
+.your-purchases-info-div{
+    position: relative;
+    top: 30%;
+    left: 50%;
+    width: fit-content;
+    height: fit-content;
+}
 
 .btn:link,
 .btn:visited{
@@ -133,7 +132,7 @@ html, body {
 }*/
 
 
-.gameBtn{
+.submit{
     height: 50px;
     background-color: rgb(207, 205, 200);
     font-size: 1em;

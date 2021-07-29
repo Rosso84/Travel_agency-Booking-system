@@ -38,10 +38,12 @@ public class Trip {
     @Future  //TODO: remember to check if provided returnDate is before departure and test if past fails..
     private LocalDate returnDate;
 
-
-    /* Need also flightEntity, seatEntity, TripDetailsEnt etc, but not for now.. */
+    /* Need also flightEntity, seatEntity etc, but I keep it simple for now.. */
     //@NotNull
     //private Flight flight;
+    // private Seat seat;
+
+
 
 
 

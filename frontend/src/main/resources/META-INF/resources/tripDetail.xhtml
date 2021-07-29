@@ -5,21 +5,38 @@
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
       xmlns:p="http://xmlns.jcp.org/jsf/passthrough"
+      xmlns:sec="http://www.springframework.org/security/tags"
 >
 
 <ui:composition template="/layout.xhtml">
 
     <ui:define name="title">
-        Detail Page
+        Trip Detail Page
     </ui:define>
 
 
     <ui:define name="content">
 
         <h2>About the trip</h2>
-        <hr/>
-        <p>Some Deails about trips .....</p>
 
+        <c:set var="trip" value="#{tripController.chosenTrip}"/>
+        <p>Location:  #{trip.location}</p>
+        <p>#{trip.title}</p>
+        <p>#{trip.description}</p>
+        <p>departure date: #{trip.departureDate}</p>
+        <p>Return date: #{trip.returnDate}</p>
+        <p>#{trip.cost}NOK</p>
+
+        <sec:authenticated>
+            <h:commandButton id="submit"
+                             value="Purchase"
+                             class="btn"
+                             action="#{ purchaseController.bookTrip( userInfoController.userName, trip.id ) }"/>
+        </sec:authenticated>
+
+        <sec:anonymous>
+            <h:outputText style="font-size: 16px; color: blueviolet" value="Login to book this trip. Not many available left! "/>
+        </sec:anonymous>
     </ui:define>
 
 </ui:composition>
