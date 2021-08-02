@@ -163,8 +163,8 @@ public class UserServiceTest extends ServiceTestBase{
 
          User user = userService.getUser(email, false);
 
-         LocalDate departureDate= LocalDate.now().plusYears(1);
-         LocalDate returnDate= departureDate.plusMonths(1);
+         LocalDate departureDate = LocalDate.now().plusYears(1);
+         LocalDate returnDate = departureDate.plusMonths(1);
 
          Long trip1 = tripService.createTrip("aaa", "BBB", 4000, "Bahamas", departureDate, returnDate);
          Long trip2 = tripService.createTrip("nnn", "CCCCC", 8000, "Spain", departureDate, returnDate);

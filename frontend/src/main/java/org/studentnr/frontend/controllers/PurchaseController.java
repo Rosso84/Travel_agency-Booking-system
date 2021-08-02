@@ -16,6 +16,11 @@ public class PurchaseController {
 
     public void bookTrip(String userId_email, Long tripId){
         Long purchaseId = purchaseService.bookTrip( userId_email, tripId );
+
+        TripController tc = new TripController();
+        tc.setSelectedTrip(null);
+
+        System.out.println("bookTrip method selected. with purchaseID: " + purchaseId);
     }
 
     public Purchase getBookedTrip(long purchaseId){

@@ -58,6 +58,7 @@ public class User {
      ManyToMany: LAZY
      OneToOne: EAGER
      */
+
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)  //TODO: what cascadetype should user be allowed to? Persist only?
     private List<Purchase> purchases;
 

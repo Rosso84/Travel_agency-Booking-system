@@ -27,57 +27,42 @@ public class TripController implements Serializable {
 
     private Integer numberOfTopTrips = 5;
 
-    /*private Long selectedTripId = null;
-
-    private Trip selectedTrip = null;*/
-
-    private Trip chosenTrip;
+    private Trip selectedTrip;
 
 
-   /* public boolean isTripSelected() {
-        return selectedTripId != null;
+    public boolean isTripSelected() {
+        return getSelectedTrip() != null;
     }
-
-    public Trip getSelectedTrip() {
-        return selectedTrip;
-    }
-
-    public void selectTrip(Long id){
-        selectedTripId = id;
-
-        selectedTrip = tripService.getTrip(selectedTripId);
-
-    }*/
 
     public List<Trip> getTopNTripsList(){
         topNTripsList = tripService.getTop_N_Trips( numberOfTopTrips );
         return topNTripsList;
     }
 
-    public Trip getChosenTrip() {
-        if (this.chosenTrip == null){
-            System.out.println("GetChosen, Chosen trip is null");
-            return null;
-        }
-        System.out.println( "getChosenTrip, Chosen trip id: ".concat( chosenTrip.getId().toString() ) );
-        return chosenTrip;
+    public void selectTrip(Long id){
+        System.out.println( "selectedTripId:" + id);
+
+        selectedTrip = tripService.getTrip(id);
+        System.out.println("selectedTrip:" + selectedTrip.getLocation());
+
+        setSelectedTrip( selectedTrip );
     }
 
-/*    public void setChosenTrip(Long  id){
 
-        System.out.println("retrieved id: ".concat( id.toString() ) );
-        for (Trip  trip : topNTripsList) {
+    public void setSelectedTrip(Trip selectedTrip) {
+        this.selectedTrip = selectedTrip;
+    }
 
-            if (trip.getId().equals( id ) ){
-                this.chosenTrip = trip;
-            }
-        }
-        System.out.println("setChosenTrip is set to: ".concat( this.chosenTrip.getId().toString() ) );
-    }*/
+
+    public Trip getSelectedTrip() {
+        return selectedTrip;
+    }
+
 
     public Integer getNumberOfTopTrips() {
         return numberOfTopTrips;
     }
+
 
     public void setNumberOfTopTrips(Integer numberOfTopTrips) {
         this.numberOfTopTrips = numberOfTopTrips;
@@ -93,29 +78,16 @@ public class TripController implements Serializable {
         return this.tripsByLocationList;
     }
 
-    public boolean getTripsByLocationListIsEmptyOrNull(){
-        if ( getTripsByLocationList() == null){
-            tripsByLocationList = new ArrayList<>();
-            return true;
-        }
-        else if ( getTripsByLocationList().size() == 0) {
-            return true;
-        }
-
-        return false;
-    }
-
-    public int getNumberOfTripsAvailable(){
-        return tripsByLocationList.size();
-    }
 
     public void retrieveTripsByLocation( String location ) {
          this.tripsByLocationList = tripService.getByTripLocationOrderByCostAscending( location.toLowerCase() );
     }
 
+
     public String getLocation() {
         return location;
     }
+
 
     public void setLocation(String location) {
         this.location = location;

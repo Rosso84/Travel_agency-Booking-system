@@ -19,7 +19,7 @@
 
         <h2>About the trip</h2>
 
-        <c:set var="trip" value="#{tripController.chosenTrip}"/>
+        <c:set var="trip" value="#{tripController.selectedTrip}"/>
         <p>Location:  #{trip.location}</p>
         <p>#{trip.title}</p>
         <p>#{trip.description}</p>
@@ -28,12 +28,13 @@
         <p>#{trip.cost}NOK</p>
 
         <sec:authenticated>
-            <h:commandButton id="submit"
+            <h:form prependId="false">
+                <h:commandButton id="submit"
                              value="Purchase"
                              class="btn"
-                             action="#{ purchaseController.bookTrip( userInfoController.userName, trip.id ) }"/>
+                             action="#{purchaseController.bookTrip( userInfoController.userName, trip.id )}"/>
+            </h:form>
         </sec:authenticated>
-
         <sec:anonymous>
             <h:outputText style="font-size: 16px; color: blueviolet" value="Login to book this trip. Not many available left! "/>
         </sec:anonymous>

@@ -15,28 +15,71 @@
     </ui:define>
 
     <ui:define name="content">
+        <c:set value="#{userInfoController.userInfoWithoutPurchases}" var="user"/>
+        <c:choose>
+            <c:when test="#{!tripController.tripSelected}">
+                <h:form>
+                    <h:outputText style="font-size: 15px"
+                                  value="Search trips by country (e.g Marocco, Ethiopia, Egypt): "/>
+                    <h:inputText id="inputTxtLocationIdAnonymous" value="#{tripController.location}" class="login"/>
+                    <h:commandButton id="btnSubmitSearchLocationIdAnonymous" value="Search"
+                                     action="#{tripController.retrieveTripsByLocation( tripController.location )}"
+                                     class="btn btn-white btn-animation-1"/>
+                </h:form>
+                <br/>
 
-        <h4>Top #{tripController.numberOfTopTrips} Trips</h4>
+                <h4>Top #{tripController.numberOfTopTrips} Trips</h4>
+                <c:forEach var="trip" items="#{tripController.topNTripsList}">
+                    <h:form>
+                        <h:commandButton
+                                value="#{trip.title}"
+                                action="#{tripController.selectTrip(trip.id)}"
+                                class="btn btn-white btn-animation-1"
+                                p:data-tripid="#{trip.id}"
+                                id="trip_btn_id#{trip.id}"/>         <!--Booking a trip works here-->
+                        <br/>
+                    </h:form>
+                </c:forEach>
+            </c:when>
+            <c:otherwise>
+                <h4>Trip Details</h4>
+                <c:set var="trip" value="#{tripController.selectedTrip}"/>
+                <p>#{trip.location}</p>
+                <p>#{trip.title}</p>
+                <p>#{trip.description}</p>
+                <p>Departure: #{trip.departureDate}</p>
+                <p>Return: #{trip.returnDate}</p>
+                <p style="color: deeppink;">#{trip.cost}NOK</p>
 
-        <c:forEach var="trip" items="#{tripController.topNTripsList}">
-            <a id="linkToTripDetailId2" href="tripDetail.jsf" class="top_5_trips">
-                <p>#{trip.title} #{trip.cost} NOK</p>
-            </a>
-        </c:forEach>
-        <br/>
+                <sec:authenticated>
+                    <p>#{user.email} + #{trip.id}</p>            <!--The data I need to pass to the parameters exists-->
+                    <!--Booking a Trip does not work here-->
+                    <h:form>
+                        <h:commandButton
+                                value="Purchase Trip"
+                                action="#{purchaseController.bookTrip(user.email, trip.id)}"
+                                class="btn btn-white btn-animation-1"
+                                p:data-tripid="#{trip.id}"
+                                id="trip_btn_id2#{trip.id}"/>
+                    </h:form>
+                </sec:authenticated>
+                <sec:anonymous>
+                    <h:outputText style="font-size: 16px; color: blueviolet;"
+                                  value="Login to book this trip. Not many available left! "/>
+                </sec:anonymous>
+            </c:otherwise>
+        </c:choose>
+        <hr/>
         <h:form>
-            <h:outputText style="font-size: 12px" value="Search trips by country (e.g Marocco, Ethiopia, Egypt): "/>
-            <h:inputText id="inputTxtLocationIdAnonymous" value="#{tripController.location}" class="login"/>
-            <h:commandButton id="btnSubmitSearchLocationIdAnonymous" value="Search"
-                             action="#{tripController.retrieveTripsByLocation( tripController.location )}"
-                             class="btn btn-white btn-animation-1"/>
-            <br/>
-            <c:forEach var="trip" items="#{tripController.tripsByLocationList}">
-                <a href="tripDetail.jsf" class="btn">
-                    #{trip.location},  #{trip.title},  #{trip.cost}NOK
-                </a>
-            </c:forEach>
+            <ul>
+                <c:forEach var="trip" items="#{tripController.tripsByLocationList}">
+                    <li>
+                        #{trip.title}  #{trip.location} #{trip.cost}
+                    </li>
+                </c:forEach>
+            </ul>
         </h:form>
+
     </ui:define>
 </ui:composition>
 </html>

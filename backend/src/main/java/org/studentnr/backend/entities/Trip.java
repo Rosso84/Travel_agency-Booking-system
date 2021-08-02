@@ -38,18 +38,19 @@ public class Trip {
     @Future  //TODO: remember to check if provided returnDate is before departure and test if past fails..
     private LocalDate returnDate;
 
+    /*@NotNull
+    private Boolean booked;*/
+
     /* Need also flightEntity, seatEntity etc, but I keep it simple for now.. */
     //@NotNull
     //private Flight flight;
     // private Seat seat;
 
 
-
-
-
     //Need an empty constructor
     public Trip(){
     }
+
 
 
     public Long getId() {
@@ -67,7 +68,6 @@ public class Trip {
     public void setTitle(String title) {
         this.title = title;
     }
-
 
     public String getDescription() {
         return description;
@@ -109,6 +109,12 @@ public class Trip {
         this.returnDate = returnDate;
     }
 
+   /* public Boolean getBooked() {
+        return booked;
+    }
 
+    public void setBooked(Boolean booked) {
+        this.booked = booked;
+    }*/
 
 }
