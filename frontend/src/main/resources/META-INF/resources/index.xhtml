@@ -17,14 +17,54 @@
 
     <ui:define name="content">
 
-        <h3>Top #{tripController.numberOfTopTrips} trips</h3>
+
         <h:form prependId="false">
+            <h:outputLabel id="search-label-hint"
+                           style="font-size: 12px;
+                           color: blueviolet"
+                           value="search by location(e.g Ethiopia, Uruguay, Marocco)"/>
+
+            <h:inputText id="searc-input" value="#{tripController.location}"/>
+
+            <h:commandButton id="search-btn" class="btn btn-white btn-animation-1"
+                             value="Search"
+                             action="#{tripController.retrieveTripsByLocationSearch()}"/>
+
+            <br/>
+
+            <h4>Top #{tripController.numberOfTopTrips} trips</h4>
+
             <c:forEach var="t" items="#{tripController.topNTripsList}">
-                <h:commandButton value="Details"
-                                 id="purchasbtnId"
-                                 action="#{tripController.toDetailPage( t.id )}"
-                                 class="purchaseBtn"/>
+                <h:outputLabel value="#{t.title}"/>
+                <h:commandButton value="See Details"
+                                 id="detail-btn-top-trips#{t.id}"
+                                 action="#{tripController.toDetailPage( t )}"
+                                 class="btn btn-white btn-animation-1"/>
+
+                <br/>
             </c:forEach>
+
+            <br/>
+
+            <c:choose>
+                <c:when test="#{tripController.locationBlankOrEmpty}">
+                    <h4>Search Result for  #{tripController.location}</h4>
+
+                    <c:forEach var="trip" items="#{tripController.tripsByLocationList}">
+                        <h:outputLabel value="#{trip.title}"/>
+                        <h:commandButton value="See Details"
+                                         id="detail-btn-search#{trip.id}"
+                                         action="#{tripController.toDetailPage( trip )}"
+                                         class="btn btn-white btn-animation-1"/>
+                        <br/>
+                    </c:forEach>
+                </c:when>
+                <c:otherwise>
+                    <br/>
+                    <p style=" font-size: small; color: brown">Search for other trips</p>
+                </c:otherwise>
+            </c:choose>
+
         </h:form>
     </ui:define>
 </ui:composition>

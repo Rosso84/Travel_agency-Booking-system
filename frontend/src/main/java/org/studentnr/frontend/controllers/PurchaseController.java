@@ -22,30 +22,7 @@ public class PurchaseController {
 
         Long purId = purchaseService.bookTrip( userId_email, tc.getSelectedTrip().getId() );
 
-
-   /*     if (userId_email == null || userId_email.length() == 0) {
-            System.out.println("User email received is null or empty");
-        } else if( tc.getSelectedTripId() == null){
-            System.out.println("received email: " + userId_email);
-
-            Long purId = purchaseService.bookTrip( userId_email, tc.getSelectedTrip().getId() );
-        }*/
-
-
-
-      /*
-
-       System.out.println("selected TripID from bookTryp():  "+ id);
-*/
-       /* if (tc.getSelectedTrip().getId() == null){
-            System.out.println("selected TripID from bookTryp() is null ");
-        }else{
-            Long purchaseId = purchaseService.bookTrip( userId_email, tc.getSelectedTrip().getId() );
-        }
-*/
-       /* tc.setSelectedTrip(null);
-        System.out.println("purchased Trip with purchaseID: " + purchaseId);
-*/
+        tc.setLocation( null );
         return "/index.jsf&faces-redirect=true";
     }
 
