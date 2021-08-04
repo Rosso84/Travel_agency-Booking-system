@@ -11,33 +11,32 @@
 <ui:composition template="/layout.xhtml">
 
     <ui:define name="title">
-        Trip Detail Page
+        Trip Details
     </ui:define>
 
 
     <ui:define name="content">
 
-        <h2>About the trip</h2>
+        <h2>Trip Details</h2>
 
-        <c:set var="trip" value="#{tripController.selectedTrip}"/>
-        <p>Location:  #{trip.location}</p>
-        <p>#{trip.title}</p>
-        <p>#{trip.description}</p>
-        <p>departure date: #{trip.departureDate}</p>
-        <p>Return date: #{trip.returnDate}</p>
-        <p>#{trip.cost}NOK</p>
 
-        <sec:authenticated>
-            <h:form prependId="false">
-                <h:commandButton id="submit"
-                             value="Purchase"
-                             class="btn"
-                             action="#{purchaseController.bookTrip( userInfoController.userName, trip.id )}"/>
-            </h:form>
-        </sec:authenticated>
-        <sec:anonymous>
-            <h:outputText style="font-size: 16px; color: blueviolet" value="Login to book this trip. Not many available left! "/>
-        </sec:anonymous>
+        <h:form>
+            <sec:authenticated>
+                <c:set value="#{userInfoController.userInfoWithPurchases}" var="user"/>
+                <c:set var="trip" value="#{tripController.selectedTrip}"/>
+
+                <p>ID chosen: #{user.email}</p>
+                <h:commandButton id="btnPurchase555"
+                                 value="Purchase"
+                                 class="btn"
+                                 action="#{purchaseController.bookTrip(user.email)}"/>
+
+            </sec:authenticated>
+            <sec:anonymous>
+                <h:outputText style="font-size: 16px; color: blueviolet"
+                              value="Login to book this trip. Not many available left! "/>
+            </sec:anonymous>
+        </h:form>
     </ui:define>
 
 </ui:composition>
