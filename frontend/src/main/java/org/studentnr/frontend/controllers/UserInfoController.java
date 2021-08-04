@@ -11,6 +11,7 @@ import org.studentnr.backend.service.UserService;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Named;
 import java.io.Serializable;
+import java.util.List;
 
 @Named
 @SessionScoped
@@ -23,7 +24,7 @@ public class UserInfoController implements Serializable {
 
 
     public String getUserName(){
-        return ((UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUsername();
+        return ( (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal() ).getUsername();
     }
 
     public User getUserInfoWithPurchases(){
@@ -39,5 +40,18 @@ public class UserInfoController implements Serializable {
     public boolean isPurchasesEmpty(User user){
         return user.getPurchases().size() > 0;
     }
+
+    public boolean isTripPurchased(User user, Long tripId){
+
+        List<Purchase> purchasedTrips = user.getPurchases();
+
+        for(Purchase p: purchasedTrips){
+            if (p.getTrip().getId().equals( tripId ) ){ //TODO: equals or ==???
+                return true;
+            }
+        }
+        return false;
+    }
+
 
 }

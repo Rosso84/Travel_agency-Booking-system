@@ -2,6 +2,7 @@ package org.studentnr.frontend.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.studentnr.backend.entities.Purchase;
+import org.studentnr.backend.entities.Trip;
 import org.studentnr.backend.service.PurchaseService;
 import org.studentnr.backend.service.TripService;
 

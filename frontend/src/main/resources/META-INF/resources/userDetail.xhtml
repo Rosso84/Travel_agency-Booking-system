@@ -38,13 +38,14 @@
                             Return Date: <span style="color:blue">#{purchase.trip.returnDate}</span>
                             PurchaseDate: <span style="color:blue">#{purchase.bookedDate}</span>
                         </p>
-                        <hr/>
+                        <br/>
                     </h:form>
                 </c:forEach>
             </c:when>
             <c:otherwise>
                 <p>You have not booked any trips yet</p>
             </c:otherwise>
+            <br/>
         </c:choose>
 
 
