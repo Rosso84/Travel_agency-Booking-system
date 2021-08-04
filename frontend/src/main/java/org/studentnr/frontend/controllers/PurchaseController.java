@@ -19,16 +19,20 @@ public class PurchaseController {
     @Autowired
     private TripController tc;
 
+
+
     public String bookTrip(String userId_email) {
 
         Long purId = purchaseService.bookTrip( userId_email, tc.getSelectedTrip().getId() );
 
-        tc.setLocation( null );
-        return "/index.jsf&faces-redirect=true";
+        //tc.setLocation( null );
+
+        return "/ui/receipt.jsf&faces-redirect=true";
+        //return "/index.jsf&faces-redirect=true";
     }
 
     public Purchase getBookedTrip(long purchaseId) {
-        return purchaseService.getBookedTrip(purchaseId);
+        return purchaseService.getBookedTrip( purchaseId );
     }
 
 

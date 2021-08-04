@@ -40,9 +40,6 @@
                     <c:when test="#{userInfoController.isTripPurchased( user, trip.id)}">
                             <p style="color: red; font-size: medium">You have already booked this trip</p>
                     </c:when>
-                    <c:otherwise>
-                        
-                    </c:otherwise>
                 </c:choose>
             </sec:authenticated>
             <sec:anonymous>

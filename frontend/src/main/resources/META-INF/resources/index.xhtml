@@ -47,8 +47,8 @@
             <br/>
 
             <c:choose>
-                <c:when test="#{tripController.locationBlankOrEmpty}">
-                    <h4>Search Result for  #{tripController.location}</h4>
+                <c:when test="#{!tripController.locationNull}">
+                    <h2 style="color: rebeccapurple; font-size: 15px;">#{tripController.location}</h2>
 
                     <c:forEach var="trip" items="#{tripController.tripsByLocationList}">
                         <h:outputLabel value="#{trip.title}"/>
@@ -61,7 +61,7 @@
                 </c:when>
                 <c:otherwise>
                     <br/>
-                    <p style=" font-size: small; color: brown">Search for other trips</p>
+                    <p style=" font-size: medium; color: brown">Search for other trips there are total N trips available</p>
                     <br/>
                 </c:otherwise>
             </c:choose>

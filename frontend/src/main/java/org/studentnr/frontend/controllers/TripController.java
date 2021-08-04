@@ -31,8 +31,12 @@ public class TripController implements Serializable {
     private Trip selectedTrip;
 
 
-    public boolean isLocationBlankOrEmpty() {
-        return getLocation() != null;
+    public boolean isLocationNull() {
+        return getLocation() == null;
+    }
+
+    public boolean isLocationBlank() {
+        return getLocation().isBlank();
     }
 
     public List<Trip> getTopNTripsList() {
@@ -45,8 +49,8 @@ public class TripController implements Serializable {
         return topNTripsList;
     }
 
-    public String toDetailPage(Trip trip) {
 
+    public String toDetailPage(Trip trip) {
         setSelectedTrip( trip );
         return "/tripDetail.jsf&faces-redirect=true";
     }
