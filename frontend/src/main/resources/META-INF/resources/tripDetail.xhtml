@@ -21,12 +21,18 @@
 
 
         <h:form>
+            <c:set var="trip" value="#{tripController.selectedTrip}"/>
+            <p>#{trip.location}</p>
+            <p>#{trip.title}</p>
+            <p>#{trip.description}</p>
+            <p>Departure : #{trip.departureDate}</p>
+            <p>Return: #{trip.returnDate}</p>
             <sec:authenticated>
                 <c:set value="#{userInfoController.userInfoWithPurchases}" var="user"/>
-                <c:set var="trip" value="#{tripController.selectedTrip}"/>
+
 
                 <p>ID chosen: #{user.email}</p>
-                <h:commandButton id="btnPurchase555"
+                <h:commandButton id="btnPurchase"
                                  value="Purchase"
                                  class="btn"
                                  action="#{purchaseController.bookTrip(user.email)}"/>
