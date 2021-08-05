@@ -25,10 +25,9 @@ public class PurchaseController {
 
         Long purId = purchaseService.bookTrip( userId_email, tc.getSelectedTrip().getId() );
 
-        //tc.setLocation( null );
+        tc.setLocation( null );
 
-        return "/ui/receipt.jsf&faces-redirect=true";
-        //return "/index.jsf&faces-redirect=true";
+        return "/receipt.jsf&faces-redirect=true";
     }
 
     public Purchase getBookedTrip(long purchaseId) {

@@ -171,7 +171,7 @@
                     <artifactId>heroku-maven-plugin</artifactId>
                     <version>2.0.2</version>
                     <configuration>
-                        <appName>enterprise-app-rooz</appName> <!--TODO: Remember to rename when created new name at Heroku -->
+                        <appName>travel-agency-rooz</appName> <!--TODO: Remember to rename when created new name at Heroku -->
                         <includeTarget>false</includeTarget>
                         <includes>
                             <include>target/travelagency-exec.jar</include>
